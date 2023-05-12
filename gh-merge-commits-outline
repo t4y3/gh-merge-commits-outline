@@ -80,7 +80,7 @@ while true; do
 done
 
 # Format the merge commits list with individual details and summary tags
-merge_commits_list=$(echo "$merge_commits" | jq -r '.[] | "<li><details>\n<summary>\(.messageHeadline)</summary>\n\n  <blockquote>\(.associatedPullRequests.nodes[0].body)</blockquote>\n</details></li>"')
+merge_commits_list=$(echo "$merge_commits" | jq -r '.[] | "<li><details open>\n<summary>\(.messageHeadline)</summary>\n\n  <blockquote>\(.associatedPullRequests.nodes[0].body)</blockquote>\n</details></li>"')
 
 # Update the pull request description with the merge commits list
 new_body="$pr_body
@@ -94,7 +94,7 @@ $merge_commits_list
 
 # Prepare the update mutation for the pull request body
 update_pr_mutation="mutation {
-  updatePullRequest(input: {pullRequestId: \"$pr_id\", body: \"$new_body\"}) {
+  updatePullRequest(input: {pullRequestId: \"$pr_id\", body: \"\"\"$new_body\"\"\"}) {
     clientMutationId
   }
 }"
